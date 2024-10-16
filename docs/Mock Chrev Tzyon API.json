@@ -1,0 +1,140 @@
+{
+  "name": "Mock Chrev Tzyon API",
+  "version": "1",
+  "items": [
+    {
+      "type": "http",
+      "name": "Add Target",
+      "seq": 5,
+      "request": {
+        "url": "http://localhost:8080/api/v1/target/add",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"code_name\":\"Marshmallow Bob\",\n  \"name\":\"Jean michel cible\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Check Status",
+      "seq": 2,
+      "request": {
+        "url": "http://localhost:8080/api/v1/status",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Delete Target",
+      "seq": 6,
+      "request": {
+        "url": "http://localhost:8080/api/v1/target/:hash",
+        "method": "DELETE",
+        "headers": [],
+        "params": [
+          {
+            "name": "hash",
+            "value": "9d2abae714235f46bd34b5eb31e48d9775230e17cfc7c6165a0e221e08ce0e23",
+            "type": "path",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"code_name\":\"Marshmallow Bob\",\n  \"name\":\"Jean michel cible\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Init Data",
+      "seq": 4,
+      "request": {
+        "url": "http://localhost:8080/api/v1/init-data",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Locate All targets",
+      "seq": 4,
+      "request": {
+        "url": "http://localhost:8080/api/v1/targets",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    }
+  ],
+  "environments": [],
+  "brunoConfig": {
+    "version": "1",
+    "name": "Mock Chrev Tzyon API",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ]
+  }
+}

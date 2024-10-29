@@ -1,12 +1,16 @@
 package com.sio.services;
 
+import com.sio.apis.MockChrevTzyonApiClient;
+import com.sio.models.Position;
 import com.sio.models.Target;
 import com.sio.repositories.PositionRepository;
 import com.sio.repositories.TargetRepository;
+import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 
 public class TargetService {
+    private final MockChrevTzyonApiClient mockChrevTzyonApiClient = new MockChrevTzyonApiClient();
 
     private final TargetRepository tRepository;
     private final PositionRepository pRepository;
@@ -18,12 +22,17 @@ public class TargetService {
 
     /**
      * Get all targets stored in database and their respective positions
-     * @return targets ArrayList
      *
+     * @return targets ArrayList
      */
     public ArrayList<Target> getTargets() {
       //TODO implements this method
-        return new ArrayList<>();
+        ArrayList<Target> targets = tRepository.findAll();
+        for (Target t : targets) {
+            ArrayList<Position> positions = pRepository.findByTargetHash(t.getHash());
+            t.setPositions(positions);
+        }
+        return targets;
     }
 
     /**
@@ -34,6 +43,14 @@ public class TargetService {
      */
     public void addTarget(String codename, String name) {
         //TODO implements this method
+            Target t = new Target();
+            t.setHash(String.valueOf(System.currentTimeMillis()));
+            t.setCodeName(codename);
+            t.setName(name);
+
+            MockChrevTzyonApiClient apiClient = new MockChrevTzyonApiClient();
+            apiClient.addTarget(t);
+            tRepository.create(t);
     }
 
     /**
@@ -42,6 +59,11 @@ public class TargetService {
      */
     public void deleteTarget(Target t) {
         //TODO implements this method
+        MockChrevTzyonApiClient mctAPI = new MockChrevTzyonApiClient();
+        TargetRepository targetRepository = new TargetRepository();
+
+        mctAPI.deleteTarget(t);
+        targetRepository.delete(t);
     }
 
 }

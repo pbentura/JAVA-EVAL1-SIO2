@@ -9,6 +9,7 @@ import org.json.simple.parser.JSONParser;
 
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MockChrevTzyonApiClient {
     private final ConfigManager cm = new ConfigManager();
@@ -46,8 +47,32 @@ public class MockChrevTzyonApiClient {
      */
     public boolean addTarget(Target target) {
         //TODO : Implement this method
+        try {
+            JSONObject json = new JSONObject();
+            json.put("code_name", target.getCodeName());
+            json.put("name", target.getName());
+            String jsonBody = json.toString();
+
+            HttpResponse<String> response = HttpRequestBuilder.post(
+                    cm.getProperty("api.url") + "/target/add",
+                    jsonBody
+            );
+
+            if (response.statusCode() == 200) {
+                JSONObject responseBody = (JSONObject) parser.parse(response.body());
+                String generatedHash = (String) responseBody.get("hash");
+
+                target.setHash(generatedHash);
+
+                return true;
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+
         return false;
-    }
+}
 
     /**
      * Delete a target from the API
@@ -55,7 +80,23 @@ public class MockChrevTzyonApiClient {
      * @return boolean
      */
     public boolean deleteTarget(Target target) {
-        //TODO : Implement this method
+        try {
+            String url = cm.getProperty("api.url") + "/target/" + target.getHash();
+
+            HttpResponse<String> response = HttpRequestBuilder.delete(url);
+
+            if (response.statusCode() == 204) {
+                return true;
+            } else if (response.statusCode() == 404) {
+                System.err.println("Error: Target not found (404)");
+            } else {
+                System.err.println("Error: Unexpected response code: " + response.statusCode());
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+
         return false;
     }
 
@@ -66,6 +107,14 @@ public class MockChrevTzyonApiClient {
      */
     private String buildJsonStringFromObject(Target t){
         //TODO : Implement this method
-        return "string";
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("codename", t.getCodeName());
+            jsonObject.put("name", t.getName());
+            return jsonObject.toJSONString();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }
